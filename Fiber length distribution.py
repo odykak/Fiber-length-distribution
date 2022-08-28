@@ -42,22 +42,22 @@ plt.rcParams['axes.axisbelow'] = True
 # cwd=os.getcwd()
 
 # Working directory. Pick where you want to save your stuff
-# wd=r"C:/Users/KO/OneDrive - University of Patras/Επιφάνεια εργασίας/optical microscopy/chopped fibres"
+wd=r"Your working directory"
 
 # # Creates a folder to store the graphs inside the cwd
-# mesa= wd + '/Fibers length distribution/'
-# if not os.path.exists(mesa):
-#     os.makedirs(mesa)
-
+ mesa= wd + '/Fibers length distribution/'
+ if not os.path.exists(mesa):
+     os.makedirs(mesa)
+        
+#Data should be in folders named as in list called "ines"
 ines=['0.18 mm','0.2 mm','0.25 mm','0.5 mm','0.7 mm','1 mm']
 graph=['a','b','c','d','e','f']
 mean_fiber_length=[]
 dev_fiber_length=[]
 
-
 for index,ina in enumerate(ines):
     #Path to data. Full path if in different folder than this script is. Otherwise *files common name part*".
-    file_list = [i for i in glob.glob("C:/Users/KO/OneDrive - University of Patras/Επιφάνεια εργασίας/optical microscopy/chopped fibres/"+ina+"/Results*")]
+    file_list = [i for i in glob.glob("path to file/"+ina+"/Results*")]
     #Sort in order of number appearing in front. Omit or adjust accordingly in case of different naming.
     file_list=natsorted(file_list)
     
@@ -71,22 +71,16 @@ for index,ina in enumerate(ines):
     dev_length=round(stdev(total['Length']),3)
     mean_fiber_length.append(mean_length)
     dev_fiber_length.append(dev_length)
-    
-    
-    # fig = plt.figure(figsize=(10,5))
-    # sns.displot(total['Length'], binwidth=20,color='#1f77b4',label='Fiber length (μm)')
-    
+   
     mu, std = norm.fit(total['Length'])
-    bins=13  #13 seems pretty good
+    
+    bins=13
     fig = plt.figure(figsize=(3.5,2.625))
-    plt.hist(total['Length'],bins=bins,color='#1f77b4',density=True,edgecolor = 'black')#width=20,
+    plt.hist(total['Length'],bins=bins,color='#1f77b4',density=True,edgecolor = 'black')
     plt.grid(axis='y',linestyle='dashed', linewidth='0.3', color='grey',alpha=0.8)
     plt.xlabel('Fiber length (μm)')
-    plt.ylabel('Normalized fiber count')# or count = # of fibers'
-    # plt.title(f'{ines[index]} nominal length'+'\n'+f'{round(mu,3)} μm observed length',fontsize=12)
+    plt.ylabel('Normalized fiber count')
     plt.title(f'{ines[index]} nominal length',fontsize=12)
-
-
     xmin, xmax = plt.xlim()
     x = np.linspace(xmin, xmax,100)
     p = norm.pdf(x, mu, std)
@@ -95,7 +89,5 @@ for index,ina in enumerate(ines):
     
     ax=plt.gca()
     ax.text(0.02, 0.9, f'{graph[index]})',transform=ax.transAxes,fontsize=14, fontweight='bold')
-    # # ax.text(0.01, 0.8, f'{round(mu,3)} μm'+'\n'+'observed length',transform=ax.transAxes,fontsize=9)
-    # ax.text(0.01, 0.8, f'{round(mu,3)}±{round(std,3)} μm',transform=ax.transAxes,fontsize=9)
-    
+
     # plt.savefig(mesa+f'{ines[index]}'+'.png', dpi=300,bbox_inches="tight",) #pad_inches=0.05
