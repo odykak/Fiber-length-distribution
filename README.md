@@ -3,7 +3,7 @@
 Reads fiber length data and, in a new folder, plots:
 
 - length histograms
--normal distribution of observed lengths
+- normal distribution of observed lengths
 
 "Fiber length distribution" is the file to run, found in the branch named "main".
 
