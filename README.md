@@ -1,4 +1,4 @@
-# Fiber-length-distribution
+# Fiber length distribution
 
 Reads fiber length data and, in a new folder, plots:
 
